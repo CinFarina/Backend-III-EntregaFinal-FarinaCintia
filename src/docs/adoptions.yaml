@@ -1,0 +1,107 @@
+openapi: 3.0.0
+info:
+  title: AdoptMe - Adoptions
+  version: "1.0.0"
+paths:
+  /api/adoptions:
+    get:
+      summary: Obtener todas las adopciones
+      tags:
+        - Adoptions
+      responses:
+        '200':
+          description: Lista de adopciones
+        '204':
+          description: Sin adopciones
+
+  /api/adoptions/{aid}:
+    get:
+      summary: Obtener adopción por ID
+      tags:
+        - Adoptions
+      parameters:
+        - name: aid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Adopción encontrada
+        '404':
+          description: No encontrada
+
+    delete:
+      summary: Eliminar adopción por ID
+      tags:
+        - Adoptions
+      parameters:
+        - name: aid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Eliminada
+
+  /api/adoptions/{uid}/{pid}:
+    post:
+      summary: Crear adopción (usuario adopta mascota)
+      tags:
+        - Adoptions
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Adopción creada
+        '400':
+          description: Bad request (por ejemplo mascota ya adoptada)
+        '404':
+          description: Usuario o mascota no encontrado
+
+components:
+  schemas:
+    Adoption:
+      type: object
+      properties:
+        _id:
+          type: string
+        owner:
+          $ref: '#/components/schemas/UserRef'
+        pet:
+          $ref: '#/components/schemas/PetRef'
+        adoptedAt:
+          type: string
+          format: date-time
+
+    UserRef:
+      type: object
+      properties:
+        _id:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+
+    PetRef:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        species:
+          type: string
+        adopted:
+          type: boolean

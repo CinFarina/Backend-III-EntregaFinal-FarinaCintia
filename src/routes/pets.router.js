@@ -16,6 +16,7 @@ router.get("/:pid", async (req, res) => {
   try {
     const pet = await PetModel.findById(req.params.pid).populate("owner");
     if (!pet) return res.status(404).json({ status: "error", message: "Mascota no encontrada" });
+
     res.status(200).json({ status: "success", payload: pet });
   } catch (error) {
     res.status(500).json({ status: "error", message: "Error al obtener mascota" });

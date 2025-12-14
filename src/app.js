@@ -46,6 +46,7 @@ app.get("/", (req, res) => {
 export default app;
 
 // Server
+const PORT = process.env.PORT || 8080;
 if (process.env.NODE_ENV !== "test") {
-  app.listen(8080, () => console.log("🟢 Servidor activo en puerto 8080"));
+  app.listen(PORT, () => console.log(`🟢 Servidor activo en puerto ${PORT}`));
 }
